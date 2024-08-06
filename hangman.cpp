@@ -151,7 +151,7 @@ void Hangman::play(char letter) {
             ++incorrectTry;
             lettersGuessed.push_back(letter);
         }
-        if (incorrectTry == hangmanPics.size()-1) {
+        if (incorrectTry == (int) hangmanPics.size()-1) {
             gameOver = true;
         }
     }
