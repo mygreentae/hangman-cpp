@@ -9,7 +9,8 @@
 #include <algorithm>
 #include <cctype>
 
-class Hangman {
+class Hangman
+{
 private:
     std::string answer;
     std::vector<std::string> hangmanPics;
@@ -19,12 +20,13 @@ private:
     bool gameWon;
     int incorrectTry;
     int answerSize;
+
 public:
     Hangman();
     Hangman(const int gameType);
     std::string getAnswer();
     void display() const;
-    bool isWon() const ;
+    bool isWon() const;
     bool isOver() const;
     void play(char letter);
 };

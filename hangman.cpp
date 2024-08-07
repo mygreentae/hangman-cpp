@@ -1,11 +1,12 @@
 #include "hangman.h"
 
-Hangman::Hangman(const int gameType) {
+Hangman::Hangman(const int gameType)
+{
     gameOver = false;
     gameWon = false;
     incorrectTry = 0;
     lettersGuessed = {};
-    hangmanPics = {  
+    hangmanPics = {
         R"( 
   +---+
   |   |
@@ -68,26 +69,26 @@ Hangman::Hangman(const int gameType) {
  / \  |
       |
 =========
-)"
-    };
+)"};
 
-
-
-    // choose random word 
+    // choose random word
     std::vector<std::string> gameTypes = {"words", "phrases", "words-and-phrases"};
-    std::ifstream file("dictionaries/"+gameTypes[gameType-1]+".txt");
-    if (!file.is_open()) {
-        throw std::runtime_error("Error: Could not open dictionary.") ;
+    std::ifstream file("dictionaries/" + gameTypes[gameType - 1] + ".txt");
+    if (!file.is_open())
+    {
+        throw std::runtime_error("Error: Could not open dictionary.");
     }
 
     std::vector<std::string> lines;
     std::string line;
 
-    while(std::getline(file, line)) {
+    while (std::getline(file, line))
+    {
         lines.push_back(line);
     }
 
-    if (lines.empty()) {
+    if (lines.empty())
+    {
         throw std::runtime_error("Error: The dictionary is empty!");
     }
 
@@ -99,59 +100,78 @@ Hangman::Hangman(const int gameType) {
 
     answer = lines[randomIndex];
     answerSize = answer.size();
-    for (char ch : answer) {
-        if (ch == ' ') {
+    for (char ch : answer)
+    {
+        if (ch == ' ')
+        {
             guessState.push_back(' '); // Preserve spaces
-        } else {
+        }
+        else
+        {
             guessState.push_back('_'); // Hide letters
         }
     }
 }
 
-std::string Hangman::getAnswer() {
+std::string Hangman::getAnswer()
+{
     return answer;
 }
 
-void Hangman::display() const {
+void Hangman::display() const
+{
     std::cout << hangmanPics[incorrectTry] << std::endl;
-    if (lettersGuessed.size() > 0) {
+    if (lettersGuessed.size() > 0)
+    {
         std::cout << "Letters guessed (incorrect): ";
-        for (char letter : lettersGuessed) {
+        for (char letter : lettersGuessed)
+        {
             std::cout << letter << " ";
         }
-        std::cout << std::endl << std::endl;
+        std::cout << std::endl
+                  << std::endl;
     }
 
-    for (char letter : guessState) {
+    for (char letter : guessState)
+    {
         std::cout << letter << " ";
     }
-    std::cout << std::endl << std::endl;
+    std::cout << std::endl
+              << std::endl;
 }
 
-bool Hangman::isWon() const {
+bool Hangman::isWon() const
+{
     return gameWon;
 }
 
-bool Hangman::isOver() const {
+bool Hangman::isOver() const
+{
     return gameOver;
 }
 
-void Hangman::play(char letter) {
+void Hangman::play(char letter)
+{
     bool found = false;
-    for (int i = 0; i < answerSize; ++i) {
-        if (std::tolower(answer[i]) == letter) {
+    for (int i = 0; i < answerSize; ++i)
+    {
+        if (std::tolower(answer[i]) == letter)
+        {
             guessState[i] = letter;
             found = true;
         }
     }
     // see if game is over
-    if (!found) {
-        if (std::find(lettersGuessed.begin(), lettersGuessed.end(), letter) == 
-            lettersGuessed.end()) {
+    if (!found)
+    {
+        if (std::find(lettersGuessed.begin(), lettersGuessed.end(), letter) ==
+            lettersGuessed.end())
+        {
             ++incorrectTry;
             lettersGuessed.push_back(letter);
         }
-        if (incorrectTry == (int) hangmanPics.size()-1) {
+        if (incorrectTry == (int)hangmanPics.size() - 1)
+        {
             gameOver = true;
         }
     }
